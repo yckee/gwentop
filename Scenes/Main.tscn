@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/Main.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/CardManager.tscn" type="PackedScene" id=3]
+
+[node name="Main" type="Node"]
+script = ExtResource( 2 )
+
+[node name="CardManager" parent="." instance=ExtResource( 3 )]
+
+[editable path="CardManager"]
+[editable path="CardManager/Deck"]
