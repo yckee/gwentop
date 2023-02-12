@@ -2,7 +2,7 @@ extends Node2D
 
 onready var Deck = $Deck
 
-const HAND_WIDTH_COEF = 150
+const HAND_WIDTH_COEF = 155
 const HAND_HEIGHT_COEF = -4.5
 const HAND_ROTATION_COEF = 0.1
 
