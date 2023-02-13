@@ -24,13 +24,16 @@ func init_cards():
 func adjust_hand():
 	for i in hand.size():
 		var hand_ratio = float(i) / float(hand.size() - 1) if hand.size() > 1 else 0.5
-		var destination = $Hand/HandPos.position
+		hand[i].pos_in_hand = $Hand/HandPos.position
 
-		destination.x += spread_curve.interpolate(hand_ratio) * HAND_WIDTH_COEF
-		destination.y += vert_curve.interpolate(hand_ratio) * HAND_HEIGHT_COEF
-		var dest_rotation = rotation_curve.interpolate(hand_ratio) * HAND_ROTATION_COEF
+		hand[i].pos_in_hand.x += spread_curve.interpolate(hand_ratio) * HAND_WIDTH_COEF
+		hand[i].pos_in_hand.y += vert_curve.interpolate(hand_ratio) * HAND_HEIGHT_COEF
+		hand[i].rotation_in_hand = rotation_curve.interpolate(hand_ratio) * HAND_ROTATION_COEF
 
-		hand[i].move_card(destination, dest_rotation)
+		hand[i].move_card(hand[i].pos_in_hand, hand[i].rotation_in_hand)
 
-func play_card(card):
+func _play_card(card):
+	print("playinf")
 	hand.remove(hand.find(card))
+	card.move_card(Vector2(640, 300))
+#	card.kill_card()
