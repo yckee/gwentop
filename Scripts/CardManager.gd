@@ -2,9 +2,10 @@ extends Node2D
 
 onready var Deck = $Deck
 
-const HAND_WIDTH_COEF = 155
-const HAND_HEIGHT_COEF = -4.5
-const HAND_ROTATION_COEF = 0.1
+const MAX_CARDS_IN_HAND = 10
+const MAX_WIDTH_OFFSET = 400.0
+const MAX_HEIGHT_OFFSET = -MAX_WIDTH_OFFSET / (MAX_CARDS_IN_HAND * 7.0)
+const MAX_ROTATION = (MAX_CARDS_IN_HAND * 5.0) / MAX_WIDTH_OFFSET
 
 var hand = []
 export var spread_curve: Curve
@@ -22,18 +23,19 @@ func init_cards():
 		$Hand.add_child(card)
 
 func adjust_hand():
+	var width_offset =  MAX_WIDTH_OFFSET / MAX_CARDS_IN_HAND * hand.size()
+	var height_offset = MAX_CARDS_IN_HAND / MAX_HEIGHT_OFFSET * hand.size()
 	for i in hand.size():
 		var hand_ratio = float(i) / float(hand.size() - 1) if hand.size() > 1 else 0.5
 		hand[i].pos_in_hand = $Hand/HandPos.position
 
-		hand[i].pos_in_hand.x += spread_curve.interpolate(hand_ratio) * HAND_WIDTH_COEF
-		hand[i].pos_in_hand.y += vert_curve.interpolate(hand_ratio) * HAND_HEIGHT_COEF
-		hand[i].rotation_in_hand = rotation_curve.interpolate(hand_ratio) * HAND_ROTATION_COEF
+		hand[i].pos_in_hand.x += spread_curve.interpolate(hand_ratio) * width_offset
+		hand[i].pos_in_hand.y += vert_curve.interpolate(hand_ratio) * height_offset
+		hand[i].rotation_in_hand = rotation_curve.interpolate(hand_ratio) * MAX_ROTATION
 
+		print(hand[i].pos_in_hand)
 		hand[i].move_card(hand[i].pos_in_hand, hand[i].rotation_in_hand)
 
-func _play_card(card):
-	print("playinf")
+func play_card(card):
 	hand.remove(hand.find(card))
-	card.move_card(Vector2(640, 300))
-#	card.kill_card()
+	card.play_card()

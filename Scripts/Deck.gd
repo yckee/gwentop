@@ -20,7 +20,7 @@ func init_playing_deck(deck_name):
 		card = CardScene.instance()
 		card.card_name = card_name
 		card.position = position
-		card.connect("play_card", get_parent(), "_play_card")
+		card.connect("card_played", get_parent(), "play_card")
 		playing_deck.append(card)
 	playing_deck.shuffle()
 	

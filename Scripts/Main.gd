@@ -10,6 +10,6 @@ func _ready():
 #func _process(delta):
 #	pass
 
-#func _input(event):
-#	if event is InputEventMouseButton and event.is_pressed():
-#		CardManager.draw_cards(1)
+func _input(event):
+	if event.is_action_pressed("draw_card"):
+		CardManager.draw_cards(1)
