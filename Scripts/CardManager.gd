@@ -1,6 +1,7 @@
 extends Node2D
 
 onready var Deck = $Deck
+var CardStates = CardVariables.CardStates
 
 const MAX_CARDS_IN_HAND = 10
 const MAX_WIDTH_OFFSET = 400.0
@@ -18,7 +19,6 @@ func draw_cards(num):
 	adjust_hand()
 
 func init_cards():
-	print("init cards")
 	for card in hand:
 		$Hand.add_child(card)
 
@@ -33,9 +33,12 @@ func adjust_hand():
 		hand[i].pos_in_hand.y += vert_curve.interpolate(hand_ratio) * height_offset
 		hand[i].rotation_in_hand = rotation_curve.interpolate(hand_ratio) * MAX_ROTATION
 
-		print(hand[i].pos_in_hand)
 		hand[i].move_card(hand[i].pos_in_hand, hand[i].rotation_in_hand)
 
 func play_card(card):
 	hand.remove(hand.find(card))
-	card.play_card()
+	card.card_state = CardStates.PLAYED
+	adjust_hand()
+
+#func _process(delta):
+#	print(CardVariables.is_focused)

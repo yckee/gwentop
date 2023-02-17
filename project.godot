@@ -24,6 +24,10 @@ config/name="GwenTop"
 run/main_scene="res://Scenes/Main.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+CardVariables="*res://Scripts/CardVariables.gd"
+
 [display]
 
 window/size/width=1280
