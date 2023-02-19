@@ -81,7 +81,7 @@ func kill_card():
 	yield(tween, "finished")
 	queue_free()
 
-func make_focus():
+func make_focus():  # TODO: fix bug with position.y being also curved
 	move_card(position + Vector2(0, -60), 0.0, FOCUSED_CARD_SCALE)
 	z_index = 2
 
