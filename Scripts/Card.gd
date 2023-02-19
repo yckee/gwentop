@@ -45,6 +45,8 @@ func change_card_scale(_scale):
 	scale = _scale
 	$Border.scale = card_size / $Border.texture.get_size()
 	$Face.scale = card_size / $Face.texture.get_size()
+	$CollisionShape2D.scale = card_size / 2 / $CollisionShape2D.shape.extents
+	
 
 func move_card(dest, rotate = null, _scale = null, _modulate = null):
 	var tween := create_tween()
