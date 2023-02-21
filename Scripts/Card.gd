@@ -16,10 +16,12 @@ var card_scale setget change_card_scale
 var dealt = false
 var pos_in_hand
 var rotation_in_hand
-var is_played = false
+var is_selected = false
 var _mouse_entered = false
+var Arrow = Line2D.new()
 
 func _ready():
+	prepare_arrow()
 	var face_text = CardDB.CARDS[card_name].face_path
 	$Face.texture = load(face_text)
 	self.card_scale = BASIC_CARD_SCALE
@@ -36,10 +38,32 @@ func _process(_delta):
 				off_focus()
 				CardVariables.something_is_hovered = false
 				card_state = CardStates.IDLE
+			if is_selected:
+				card_state = CardStates.SELECTED		
+		CardStates.SELECTED:
+#			Arrow.visible = true
+			adjuct_arrow()
 		CardStates.PLAYED:
-			play_card()
+#			Arrow.visible = false
 			CardVariables.something_is_hovered = false
+			play_card()
+			card_state = CardStates.PLACED
+		CardStates.PLACED:
+			pass
 			
+
+func prepare_arrow():
+	Arrow.default_color = Color(1, 0.94, 0.03, 1.5)
+	Arrow.width = 5
+#	Arrow.visible = false
+	Arrow.points = [Vector2.ZERO, Vector2.ZERO]
+	add_child(Arrow)
+
+func adjuct_arrow():
+	Arrow.points[0] = position
+	Arrow.points[1] = get_global_mouse_position()
+	print(Arrow.points)
+	
 
 func change_card_scale(_scale):
 	scale = _scale
@@ -91,8 +115,14 @@ func off_focus():
 
 func _unhandled_input(event):
 	if event.is_action_pressed("left_click") and _mouse_entered:
+		is_selected = true
+		self.get_tree().set_input_as_handled()
+	if event.is_action_released("left_click") and is_selected:
 		emit_signal("card_played", self)
 		self.get_tree().set_input_as_handled()
+		
+#		print("released")
+
 
 func _on_Card_mouse_entered():
 	_mouse_entered = true
