@@ -39,12 +39,12 @@ func _process(_delta):
 				CardVariables.something_is_hovered = false
 				card_state = CardStates.IDLE
 			if is_selected:
-				card_state = CardStates.SELECTED		
+				card_state = CardStates.SELECTED
 		CardStates.SELECTED:
-#			Arrow.visible = true
+			Arrow.visible = true
 			adjuct_arrow()
 		CardStates.PLAYED:
-#			Arrow.visible = false
+			Arrow.visible = false
 			CardVariables.something_is_hovered = false
 			play_card()
 			card_state = CardStates.PLACED
@@ -55,14 +55,12 @@ func _process(_delta):
 func prepare_arrow():
 	Arrow.default_color = Color(1, 0.94, 0.03, 1.5)
 	Arrow.width = 5
-#	Arrow.visible = false
+	Arrow.visible = false
 	Arrow.points = [Vector2.ZERO, Vector2.ZERO]
 	add_child(Arrow)
 
 func adjuct_arrow():
-	Arrow.points[0] = position
-	Arrow.points[1] = get_global_mouse_position()
-	print(Arrow.points)
+	Arrow.set_point_position(1, get_local_mouse_position())
 	
 
 func change_card_scale(_scale):
